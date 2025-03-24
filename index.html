@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Driving RC Car - Sprint 2</title>
+    <title>Sprint 2: Self-Driving RC Car</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         .swiper {
             width: 100%;
@@ -19,31 +23,96 @@
         }
         .swiper-slide {
             background: #fff;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            height: 500px; /* Fixed height for consistency */
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            height: 550px; /* Fixed height for consistency */
             overflow-y: auto; /* Scroll if content overflows */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .swiper-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         h2 {
-            color: #333;
+            color: #1a1a1a;
             font-size: 24px;
+            font-weight: 700;
             margin-bottom: 15px;
+            border-bottom: 2px solid #cdb937;
+            padding-bottom: 5px;
         }
         p, ul {
             color: #666;
             font-size: 16px;
-            line-height: 1.5;
-            text-align: left;
+            line-height: 1.6;
+            margin-bottom: 10px;
         }
         ul {
             padding-left: 20px;
+            list-style: none;
+        }
+        ul li {
+            position: relative;
+            margin-bottom: 8px;
+        }
+        ul li::before {
+            content: "•";
+            color: #cdb937;
+            font-size: 20px;
+            position: absolute;
+            left: -20px;
         }
         .emoji {
-            font-size: 30px;
+            font-size: 36px;
             margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+        .highlight {
+            color: #cdb937;
+            font-weight: 600;
+        }
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #007aff;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 20px;
+        }
+        .swiper-pagination-bullet {
+            background: #ccc;
+            opacity: 0.5;
+        }
+        .swiper-pagination-bullet-active {
+            background: #007aff;
+            opacity: 1;
+        }
+        @media (max-width: 400px) {
+            .swiper-slide {
+                padding: 20px 15px;
+                height: 500px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            p, ul {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -52,61 +121,65 @@
         <div class="swiper-wrapper">
             <!-- Card 1 -->
             <div class="swiper-slide">
-                <div class="emoji">🚗</div>
-                <h2>Introduction to the Project</h2>
-                <p>Exploring <strong>autonomous navigation</strong> with a self-driving RC car that detects obstacles and follows people.</p>
-                <p>Built with <strong>Arduino</strong>—considering <strong>Raspberry Pi + Python</strong> for more power.</p>
+                <span class="emoji">🚗</span>
+                <h2>1. Introduction to the Project</h2>
+                <p>Our project explores <span class="highlight">autonomous navigation</span> by building a <span class="highlight">self-driving RC car</span>.</p>
+                <p>The goal is to enable the car to detect obstacles, follow a person, and navigate intelligently.</p>
+                <p>Initially using <span class="highlight">Arduino</span>, we are also exploring <span class="highlight">Raspberry Pi</span> and <span class="highlight">Python</span> for enhanced capabilities.</p>
             </div>
             <!-- Card 2 -->
             <div class="swiper-slide">
-                <div class="emoji">✅</div>
-                <h2>Progress So Far</h2>
+                <span class="emoji">✅</span>
+                <h2>2. Progress So Far</h2>
+                <p><strong>Sprint 1 & 2 Achievements:</strong></p>
                 <ul>
-                    <li>Assembled the RC car—hardware works.</li>
-                    <li>Connected to Arduino IDE—communication established.</li>
-                    <li>Tested demo code—speed/movement verified.</li>
-                    <li>Custom code failed—debugging needed.</li>
-                    <li>Limited testing—online classes slow us down.</li>
+                    <li>Assembled the RC Car – Verified hardware components are functional.</li>
+                    <li>Connected to Arduino IDE – Established communication with the car.</li>
+                    <li>Tested Manufacturer’s Demo Code – Successfully modified speed and verified movement.</li>
+                    <li>Encountered issues with custom-written code – Could not make our own code work on the car.</li>
+                    <li>Limited hands-on testing – Online classes & team members not meeting frequently.</li>
                 </ul>
             </div>
             <!-- Card 3 -->
             <div class="swiper-slide">
-                <div class="emoji">🚧</div>
-                <h2>Challenges Faced</h2>
+                <span class="emoji">🚧</span>
+                <h2>3. Challenges Faced</h2>
+                <p><strong>Key Obstacles:</strong></p>
                 <ul>
-                    <li>Hardware access—one teammate has the car.</li>
-                    <li>Custom code not working—bugs persist.</li>
-                    <li>Team collaboration—online classes limit meetups.</li>
-                    <li>Arduino limits—may need Raspberry Pi.</li>
+                    <li><strong>Hardware Access:</strong> Only one team member currently has the car.</li>
+                    <li><strong>Coding & Debugging Issues:</strong> Custom-written code isn’t working as expected.</li>
+                    <li><strong>Limited Team Collaboration:</strong> Online classes make real-time testing difficult.</li>
+                    <li><strong>Arduino Limitations:</strong> Considering switching to <span class="highlight">Raspberry Pi</span> for better processing power.</li>
                 </ul>
             </div>
             <!-- Card 4 -->
             <div class="swiper-slide">
-                <div class="emoji">🔍</div>
-                <h2>Solutions & Next Steps</h2>
-                <p><strong>Solutions:</strong></p>
+                <span class="emoji">🔍</span>
+                <h2>4. Solutions & Next Steps</h2>
+                <p><strong>Strategies We’re Exploring:</strong></p>
                 <ul>
-                    <li>Use teammate’s working RC car.</li>
-                    <li>Explore Raspberry Pi + Python.</li>
-                    <li>Schedule team coding sessions.</li>
-                    <li>Debug with demo code as reference.</li>
+                    <li>Using a teammate’s RC Car – One team member successfully ran their own written code.</li>
+                    <li>Exploring <span class="highlight">Raspberry Pi & Python</span> – Looking into integrating a more powerful system.</li>
+                    <li>Improving Team Workflow – Scheduling dedicated coding/testing sessions.</li>
+                    <li>Debugging & Optimizing Code – Comparing our implementation with the working manufacturer demo.</li>
                 </ul>
-                <p><strong>Sprint 3 Goals:</strong> Custom code, obstacle avoidance, decide on Arduino vs. Raspberry Pi.</p>
+                <p><strong>🚀 Sprint 3 Goals:</strong></p>
+                <ul>
+                    <li>Get our custom-written code working on the car.</li>
+                    <li>Implement basic obstacle avoidance & movement logic.</li>
+                    <li>Decide whether to migrate from <span class="highlight">Arduino to Raspberry Pi</span>.</li>
+                    <li>Plan for an improved Sprint 3 presentation with a live demo.</li>
+                </ul>
             </div>
             <!-- Card 5 -->
             <div class="swiper-slide">
-                <div class="emoji">🎤</div>
-                <h2>Presentation Strategy</h2>
-                <p><strong>Talk:</strong> One introduces, one covers progress, one shares solutions.</p>
-                <p><strong>Table:</strong> Laptop with Arduino IDE, diagrams, QR code to this deck. Demo if possible.</p>
-            </div>
-            <!-- Card 6 -->
-            <div class="swiper-slide">
-                <div class="emoji">🙌</div>
-                <h2>Summary & Conclusion</h2>
-                <p>Progress on hardware, tackling code/team issues with new tools.</p>
-                <p>Sprint 3: AI navigation. Part of the <strong>AI autonomous vehicle</strong> trend.</p>
-                <p>Ready for Q&A!</p>
+                <span class="emoji">🙌</span>
+                <h2>5. Summary & Conclusion</h2>
+                <p>We have made progress in <span class="highlight">hardware setup & testing</span>, but face coding and collaboration challenges.</p>
+                <p>Exploring <span class="highlight">Raspberry Pi, Python</span>, and alternative debugging approaches to overcome obstacles.</p>
+                <p>Sprint 3 will focus on getting custom code working and refining the system for real-world navigation.</p>
+                <p>Our project aligns with the broader emerging trend of <span class="highlight">AI-powered autonomous vehicles</span>.</p>
+                <p><strong>🙌 End of Presentation – Ready for Q&A!</strong></p>
             </div>
         </div>
         <!-- Navigation Buttons -->
@@ -122,7 +195,7 @@
         new Swiper('.swiper', {
             slidesPerView: 1,
             spaceBetween: 20,
-            loop: true, // Loops back to start after last card
+            loop: true,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
