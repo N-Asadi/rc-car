@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Driving RC Car - Sprint 2</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .swiper {
+            width: 100%;
+            max-width: 400px; /* Phone-friendly width */
+            margin: auto;
+        }
+        .swiper-slide {
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 500px; /* Fixed height for consistency */
+            overflow-y: auto; /* Scroll if content overflows */
+        }
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        p, ul {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: left;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .emoji {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <!-- Card 1 -->
+            <div class="swiper-slide">
+                <div class="emoji">🚗</div>
+                <h2>Introduction to the Project</h2>
+                <p>Exploring <strong>autonomous navigation</strong> with a self-driving RC car that detects obstacles and follows people.</p>
+                <p>Built with <strong>Arduino</strong>—considering <strong>Raspberry Pi + Python</strong> for more power.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="swiper-slide">
+                <div class="emoji">✅</div>
+                <h2>Progress So Far</h2>
+                <ul>
+                    <li>Assembled the RC car—hardware works.</li>
+                    <li>Connected to Arduino IDE—communication established.</li>
+                    <li>Tested demo code—speed/movement verified.</li>
+                    <li>Custom code failed—debugging needed.</li>
+                    <li>Limited testing—online classes slow us down.</li>
+                </ul>
+            </div>
+            <!-- Card 3 -->
+            <div class="swiper-slide">
+                <div class="emoji">🚧</div>
+                <h2>Challenges Faced</h2>
+                <ul>
+                    <li>Hardware access—one teammate has the car.</li>
+                    <li>Custom code not working—bugs persist.</li>
+                    <li>Team collaboration—online classes limit meetups.</li>
+                    <li>Arduino limits—may need Raspberry Pi.</li>
+                </ul>
+            </div>
+            <!-- Card 4 -->
+            <div class="swiper-slide">
+                <div class="emoji">🔍</div>
+                <h2>Solutions & Next Steps</h2>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Use teammate’s working RC car.</li>
+                    <li>Explore Raspberry Pi + Python.</li>
+                    <li>Schedule team coding sessions.</li>
+                    <li>Debug with demo code as reference.</li>
+                </ul>
+                <p><strong>Sprint 3 Goals:</strong> Custom code, obstacle avoidance, decide on Arduino vs. Raspberry Pi.</p>
+            </div>
+            <!-- Card 5 -->
+            <div class="swiper-slide">
+                <div class="emoji">🎤</div>
+                <h2>Presentation Strategy</h2>
+                <p><strong>Talk:</strong> One introduces, one covers progress, one shares solutions.</p>
+                <p><strong>Table:</strong> Laptop with Arduino IDE, diagrams, QR code to this deck. Demo if possible.</p>
+            </div>
+            <!-- Card 6 -->
+            <div class="swiper-slide">
+                <div class="emoji">🙌</div>
+                <h2>Summary & Conclusion</h2>
+                <p>Progress on hardware, tackling code/team issues with new tools.</p>
+                <p>Sprint 3: AI navigation. Part of the <strong>AI autonomous vehicle</strong> trend.</p>
+                <p>Ready for Q&A!</p>
+            </div>
+        </div>
+        <!-- Navigation Buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Pagination Dots -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        new Swiper('.swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true, // Loops back to start after last card
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+</body>
+</html>
