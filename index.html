@@ -2,42 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sprint 2: Self-Driving RC Car</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            margin: 0;
-            padding: 20px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c3cfe2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
+            padding: 10px;
         }
         .swiper {
             width: 100%;
-            max-width: 400px; /* Phone-friendly width */
-            margin: auto;
+            height: 100vh;
+            max-width: 450px;
         }
         .swiper-slide {
             background: #fff;
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             text-align: left;
-            height: 550px; /* Fixed height for consistency */
-            overflow-y: auto; /* Scroll if content overflows */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .swiper-slide:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            height: calc(100vh - 40px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
         h2 {
             color: #1a1a1a;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 15px;
             border-bottom: 2px solid #cdb937;
@@ -65,9 +68,8 @@
             left: -20px;
         }
         .emoji {
-            font-size: 36px;
+            font-size: 32px;
             margin-bottom: 10px;
-            display: block;
             text-align: center;
         }
         .highlight {
@@ -77,41 +79,54 @@
         .swiper-button-next,
         .swiper-button-prev {
             color: #007aff;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
             width: 40px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease;
-        }
-        .swiper-button-next:hover,
-        .swiper-button-prev:hover {
-            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .swiper-button-next::after,
         .swiper-button-prev::after {
             font-size: 20px;
+            font-weight: bold;
+        }
+        .swiper-pagination {
+            bottom: 20px !important;
         }
         .swiper-pagination-bullet {
             background: #ccc;
             opacity: 0.5;
+            width: 10px;
+            height: 10px;
         }
         .swiper-pagination-bullet-active {
             background: #007aff;
             opacity: 1;
         }
-        @media (max-width: 400px) {
+        @media (max-width: 450px) {
             .swiper-slide {
-                padding: 20px 15px;
-                height: 500px;
+                padding: 15px;
+                height: calc(100vh - 30px);
             }
             h2 {
                 font-size: 20px;
             }
             p, ul {
                 font-size: 14px;
+            }
+            .emoji {
+                font-size: 28px;
+            }
+        }
+        @media (min-width: 451px) {
+            .swiper {
+                max-height: 700px;
+            }
+            .swiper-slide {
+                height: 700px;
             }
         }
     </style>
@@ -196,6 +211,8 @@
             slidesPerView: 1,
             spaceBetween: 20,
             loop: true,
+            touchRatio: 1.5, // Improves swipe sensitivity on mobile
+            grabCursor: true, // Shows a grab cursor for better UX
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
