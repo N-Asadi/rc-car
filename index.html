@@ -5,201 +5,664 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sprint 2: Self-Driving RC Car</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
+        :root {
+            --primary: #cdb937;
+            --primary-hover: #e3cc50;
+            --dark: #141414;
+            --darker: #0A0A0A;
+            --card-bg: #1A1A1A;
+            --text: #ffffff;
+            --text-secondary: #999999;
+            --transition: all 0.3s ease;
+        }
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #e0e7ff 0%, #c3cfe2 100%);
+            background: var(--dark);
+            color: var(--text);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            padding: 10px;
+            padding: 0;
         }
+        
         .swiper {
             width: 100%;
             height: 100vh;
-            max-width: 450px;
+            max-width: 100%;
         }
+        
         .swiper-slide {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            height: calc(100vh - 40px);
+            background: var(--card-bg);
+            padding: 0;
+            height: 100vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
         }
-        h2 {
-            color: #1a1a1a;
-            font-size: 22px;
+        
+        .slide-header {
+            background-size: cover;
+            background-position: center;
+            height: 30vh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+        }
+        
+        .slide-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+            z-index: 1;
+        }
+        
+        .slide-header-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        
+        .slide-content {
+            padding: 2rem;
+            flex: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #cdb937;
-            padding-bottom: 5px;
+            margin-bottom: 0.5rem;
+            color: var(--text);
         }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
         p, ul {
-            color: #666;
-            font-size: 16px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
             line-height: 1.6;
-            margin-bottom: 10px;
+            margin-bottom: 1.5rem;
         }
+        
         ul {
-            padding-left: 20px;
+            padding-left: 1.5rem;
             list-style: none;
         }
+        
         ul li {
             position: relative;
-            margin-bottom: 8px;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            transition: var(--transition);
         }
+        
         ul li::before {
-            content: "•";
-            color: #cdb937;
-            font-size: 20px;
+            content: "";
             position: absolute;
-            left: -20px;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary);
         }
+        
         .emoji {
-            font-size: 32px;
-            margin-bottom: 10px;
-            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
         }
+        
         .highlight {
-            color: #cdb937;
+            color: var(--primary);
             font-weight: 600;
         }
+        
         .swiper-button-next,
         .swiper-button-prev {
-            color: #007aff;
-            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+            background: rgba(26, 26, 26, 0.7);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
         }
+        
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: rgba(26, 26, 26, 0.9);
+            transform: scale(1.05);
+        }
+        
         .swiper-button-next::after,
         .swiper-button-prev::after {
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: bold;
         }
+        
         .swiper-pagination {
             bottom: 20px !important;
         }
+        
         .swiper-pagination-bullet {
-            background: #ccc;
+            background: #555;
             opacity: 0.5;
             width: 10px;
             height: 10px;
+            transition: var(--transition);
         }
+        
         .swiper-pagination-bullet-active {
-            background: #007aff;
+            background: var(--primary);
             opacity: 1;
+            width: 30px;
+            border-radius: 5px;
         }
-        @media (max-width: 450px) {
-            .swiper-slide {
-                padding: 15px;
-                height: calc(100vh - 30px);
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: rgba(205, 185, 55, 0.3);
+        }
+        
+        .feature-icon {
+            background: rgba(205, 185, 55, 0.1);
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 40%;
+            border-radius: 4px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--dark);
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .timeline-content {
+            color: var(--text-secondary);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .slide-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 26, 26, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            z-index: 100;
+        }
+        
+        .progress-container {
+            margin-top: 2rem;
+        }
+        
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-title {
+            font-weight: 500;
+        }
+        
+        .progress-percentage {
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .progress-fill.hardware {
+            width: 80%;
+        }
+        
+        .progress-fill.software {
+            width: 40%;
+        }
+        
+        .progress-fill.testing {
+            width: 30%;
+        }
+        
+        .progress-fill.documentation {
+            width: 60%;
+        }
+        
+        @media (max-width: 768px) {
+            .slide-header {
+                height: 25vh;
+                padding: 1.5rem;
             }
+            
+            .slide-content {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
             h2 {
-                font-size: 20px;
+                font-size: 1.5rem;
             }
+            
             p, ul {
-                font-size: 14px;
+                font-size: 1rem;
             }
-            .emoji {
-                font-size: 28px;
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
             }
         }
-        @media (min-width: 451px) {
+        
+        @media (min-width: 1024px) {
             .swiper {
-                max-height: 700px;
+                max-width: 100%;
+                height: 100vh;
             }
+            
             .swiper-slide {
-                height: 700px;
+                height: 100vh;
             }
+            
+            .slide-header {
+                height: 40vh;
+            }
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .swiper-slide-active .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-1 {
+            transition-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            transition-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            transition-delay: 0.6s;
+        }
+        
+        .delay-4 {
+            transition-delay: 0.8s;
         }
     </style>
 </head>
 <body>
+    <div class="slide-indicator">
+        <span id="current-slide">1</span>/<span id="total-slides">5</span>
+    </div>
+
     <div class="swiper">
         <div class="swiper-wrapper">
-            <!-- Card 1 -->
+            <!-- Slide 1: Introduction -->
             <div class="swiper-slide">
-                <span class="emoji">🚗</span>
-                <h2>1. Introduction to the Project</h2>
-                <p>Our project explores <span class="highlight">autonomous navigation</span> by building a <span class="highlight">self-driving RC car</span>.</p>
-                <p>The goal is to enable the car to detect obstacles, follow a person, and navigate intelligently.</p>
-                <p>Initially using <span class="highlight">Arduino</span>, we are also exploring <span class="highlight">Raspberry Pi</span> and <span class="highlight">Python</span> for enhanced capabilities.</p>
+                <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');">
+                    <div class="slide-header-content">
+                        <h1 class="fade-in">Self-Driving RC Car</h1>
+                        <p class="fade-in delay-1">Sprint 2 Presentation</p>
+                    </div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="fade-in delay-2">Introduction to the Project</h2>
+                    <p class="fade-in delay-3">Our project explores <span class="highlight">autonomous navigation</span> by building a <span class="highlight">self-driving RC car</span> capable of detecting obstacles, following a person, and navigating intelligently.</p>
+                    
+                    <div class="feature-grid fade-in delay-4">
+                        <div class="feature-item">
+                            <div class="feature-icon">🚗</div>
+                            <div class="feature-title">Autonomous Navigation</div>
+                            <p>Enabling the car to navigate without human intervention</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👁️</div>
+                            <div class="feature-title">Obstacle Detection</div>
+                            <p>Using sensors to identify and avoid obstacles</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔍</div>
+                            <div class="feature-title">Person Following</div>
+                            <p>Implementing algorithms to track and follow a person</p>
+                        </div>
+                    </div>
+                    
+                    <p class="fade-in delay-4">Initially using <span class="highlight">Arduino</span>, we are also exploring <span class="highlight">Raspberry Pi</span> and <span class="highlight">Python</span> for enhanced capabilities.</p>
+                </div>
             </div>
-            <!-- Card 2 -->
+            
+            <!-- Slide 2: Progress So Far -->
             <div class="swiper-slide">
-                <span class="emoji">✅</span>
-                <h2>2. Progress So Far</h2>
-                <p><strong>Sprint 1 & 2 Achievements:</strong></p>
-                <ul>
-                    <li>Assembled the RC Car – Verified hardware components are functional.</li>
-                    <li>Connected to Arduino IDE – Established communication with the car.</li>
-                    <li>Tested Manufacturer’s Demo Code – Successfully modified speed and verified movement.</li>
-                    <li>Encountered issues with custom-written code – Could not make our own code work on the car.</li>
-                    <li>Limited hands-on testing – Online classes & team members not meeting frequently.</li>
-                </ul>
+                <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1580894894513-541e068a3e2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+                    <div class="slide-header-content">
+                        <h1 class="fade-in">Progress So Far</h1>
+                        <p class="fade-in delay-1">Sprint 1 & 2 Achievements</p>
+                    </div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="fade-in delay-2">What We've Accomplished</h2>
+                    
+                    <div class="progress-container fade-in delay-3">
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span class="progress-title">Hardware Setup</span>
+                                <span class="progress-percentage">80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill hardware"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span class="progress-title">Software Development</span>
+                                <span class="progress-percentage">40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill software"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span class="progress-title">Testing & Validation</span>
+                                <span class="progress-percentage">30%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill testing"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span class="progress-title">Documentation</span>
+                                <span class="progress-percentage">60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill documentation"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="fade-in delay-4" style="color: var(--text); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Key Milestones:</h3>
+                    <ul class="fade-in delay-4">
+                        <li>Assembled the RC Car – Verified hardware components are functional</li>
+                        <li>Connected to Arduino IDE – Established communication with the car</li>
+                        <li>Tested Manufacturer's Demo Code – Successfully modified speed and verified movement</li>
+                        <li>Encountered issues with custom-written code – Could not make our own code work on the car</li>
+                        <li>Limited hands-on testing – Online classes & team members not meeting frequently</li>
+                    </ul>
+                </div>
             </div>
-            <!-- Card 3 -->
+            
+            <!-- Slide 3: Challenges Faced -->
             <div class="swiper-slide">
-                <span class="emoji">🚧</span>
-                <h2>3. Challenges Faced</h2>
-                <p><strong>Key Obstacles:</strong></p>
-                <ul>
-                    <li><strong>Hardware Access:</strong> Only one team member currently has the car.</li>
-                    <li><strong>Coding & Debugging Issues:</strong> Custom-written code isn’t working as expected.</li>
-                    <li><strong>Limited Team Collaboration:</strong> Online classes make real-time testing difficult.</li>
-                    <li><strong>Arduino Limitations:</strong> Considering switching to <span class="highlight">Raspberry Pi</span> for better processing power.</li>
-                </ul>
+                <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+                    <div class="slide-header-content">
+                        <h1 class="fade-in">Challenges Faced</h1>
+                        <p class="fade-in delay-1">Obstacles in Our Path</p>
+                    </div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="fade-in delay-2">Key Obstacles</h2>
+                    
+                    <div class="feature-grid fade-in delay-3">
+                        <div class="feature-item">
+                            <div class="feature-icon">🔧</div>
+                            <div class="feature-title">Hardware Access</div>
+                            <p>Only one team member currently has the car, limiting hands-on development</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💻</div>
+                            <div class="feature-title">Coding & Debugging</div>
+                            <p>Custom-written code isn't working as expected, requiring extensive troubleshooting</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👥</div>
+                            <div class="feature-title">Team Collaboration</div>
+                            <p>Online classes make real-time testing and collaboration difficult</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⚙️</div>
+                            <div class="feature-title">Technical Limitations</div>
+                            <p>Arduino may not provide enough processing power for our advanced requirements</p>
+                        </div>
+                    </div>
+                    
+                    <p class="fade-in delay-4" style="margin-top: 2rem;">These challenges have slowed our progress but have also pushed us to explore alternative approaches and solutions.</p>
+                </div>
             </div>
-            <!-- Card 4 -->
+            
+            <!-- Slide 4: Solutions & Next Steps -->
             <div class="swiper-slide">
-                <span class="emoji">🔍</span>
-                <h2>4. Solutions & Next Steps</h2>
-                <p><strong>Strategies We’re Exploring:</strong></p>
-                <ul>
-                    <li>Using a teammate’s RC Car – One team member successfully ran their own written code.</li>
-                    <li>Exploring <span class="highlight">Raspberry Pi & Python</span> – Looking into integrating a more powerful system.</li>
-                    <li>Improving Team Workflow – Scheduling dedicated coding/testing sessions.</li>
-                    <li>Debugging & Optimizing Code – Comparing our implementation with the working manufacturer demo.</li>
-                </ul>
-                <p><strong>🚀 Sprint 3 Goals:</strong></p>
-                <ul>
-                    <li>Get our custom-written code working on the car.</li>
-                    <li>Implement basic obstacle avoidance & movement logic.</li>
-                    <li>Decide whether to migrate from <span class="highlight">Arduino to Raspberry Pi</span>.</li>
-                    <li>Plan for an improved Sprint 3 presentation with a live demo.</li>
-                </ul>
+                <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1581092921461-39b9d08a9b21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+                    <div class="slide-header-content">
+                        <h1 class="fade-in">Solutions & Next Steps</h1>
+                        <p class="fade-in delay-1">Moving Forward</p>
+                    </div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="fade-in delay-2">Strategies We're Exploring</h2>
+                    
+                    <div class="timeline fade-in delay-3">
+                        <div class="timeline-item">
+                            <div class="timeline-title">Alternative Hardware</div>
+                            <div class="timeline-content">Using a teammate's RC Car – One team member successfully ran their own written code</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Platform Migration</div>
+                            <div class="timeline-content">Exploring <span class="highlight">Raspberry Pi & Python</span> – Looking into integrating a more powerful system</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Improved Workflow</div>
+                            <div class="timeline-content">Scheduling dedicated coding/testing sessions to enhance team collaboration</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Code Optimization</div>
+                            <div class="timeline-content">Debugging & comparing our implementation with the working manufacturer demo</div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="fade-in delay-4" style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Sprint 3 Goals:</h3>
+                    <ul class="fade-in delay-4">
+                        <li>Get our custom-written code working on the car</li>
+                        <li>Implement basic obstacle avoidance & movement logic</li>
+                        <li>Decide whether to migrate from <span class="highlight">Arduino to Raspberry Pi</span></li>
+                        <li>Plan for an improved Sprint 3 presentation with a live demo</li>
+                    </ul>
+                </div>
             </div>
-            <!-- Card 5 -->
+            
+            <!-- Slide 5: Summary & Conclusion -->
             <div class="swiper-slide">
-                <span class="emoji">🙌</span>
-                <h2>5. Summary & Conclusion</h2>
-                <p>We have made progress in <span class="highlight">hardware setup & testing</span>, but face coding and collaboration challenges.</p>
-                <p>Exploring <span class="highlight">Raspberry Pi, Python</span>, and alternative debugging approaches to overcome obstacles.</p>
-                <p>Sprint 3 will focus on getting custom code working and refining the system for real-world navigation.</p>
-                <p>Our project aligns with the broader emerging trend of <span class="highlight">AI-powered autonomous vehicles</span>.</p>
-                <p><strong>🙌 End of Presentation – Ready for Q&A!</strong></p>
+                <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+                    <div class="slide-header-content">
+                        <h1 class="fade-in">Summary & Conclusion</h1>
+                        <p class="fade-in delay-1">Looking Ahead</p>
+                    </div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="fade-in delay-2">Project Overview</h2>
+                    
+                    <p class="fade-in delay-3">We have made progress in <span class="highlight">hardware setup & testing</span>, but face coding and collaboration challenges.</p>
+                    
+                    <p class="fade-in delay-3">Exploring <span class="highlight">Raspberry Pi, Python</span>, and alternative debugging approaches to overcome obstacles.</p>
+                    
+                    <p class="fade-in delay-3">Sprint 3 will focus on getting custom code working and refining the system for real-world navigation.</p>
+                    
+                    <p class="fade-in delay-3">Our project aligns with the broader emerging trend of <span class="highlight">AI-powered autonomous vehicles</span>.</p>
+                    
+                    <div class="fade-in delay-4" style="text-align: center; margin-top: 3rem;">
+                        <div class="emoji" style="font-size: 4rem; margin-bottom: 1.5rem;">🙌</div>
+                        <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem;">End of Presentation</h3>
+                        <p>Thank you for your attention!</p>
+                        <button class="cta-button" id="start-qa">Start Q&A Session</button>
+                    </div>
+                </div>
             </div>
         </div>
+        
         <!-- Navigation Buttons -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
+        
         <!-- Pagination Dots -->
         <div class="swiper-pagination"></div>
     </div>
@@ -207,20 +670,73 @@
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        new Swiper('.swiper', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: true,
-            touchRatio: 1.5, // Improves swipe sensitivity on mobile
-            grabCursor: true, // Shows a grab cursor for better UX
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Swiper
+            const swiper = new Swiper('.swiper', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                speed: 800,
+                grabCursor: true,
+                keyboard: {
+                    enabled: true,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                    dynamicBullets: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                on: {
+                    slideChange: function() {
+                        updateSlideIndicator(this.activeIndex + 1);
+                        
+                        // Reset animations
+                        const currentSlide = document.querySelector('.swiper-slide-active');
+                        const fadeElements = currentSlide.querySelectorAll('.fade-in');
+                        
+                        fadeElements.forEach(element => {
+                            element.style.opacity = '0';
+                            element.style.transform = 'translateY(20px)';
+                            
+                            // Force reflow
+                            void element.offsetWidth;
+                            
+                            // Re-apply transitions
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0)';
+                        });
+                    }
+                }
+            });
+            
+            // Update slide indicator
+            function updateSlideIndicator(index) {
+                document.getElementById('current-slide').textContent = index;
+                document.getElementById('total-slides').textContent = document.querySelectorAll('.swiper-slide').length;
+            }
+            
+            // Initial update
+            updateSlideIndicator(1);
+            
+            // Q&A Button
+            const qaButton = document.getElementById('start-qa');
+            if (qaButton) {
+                qaButton.addEventListener('click', function() {
+                    alert('Q&A Session Started! Please raise your hand to ask questions.');
+                });
+            }
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    swiper.slideNext();
+                } else if (e.key === 'ArrowLeft') {
+                    swiper.slidePrev();
+                }
+            });
         });
     </script>
 </body>
