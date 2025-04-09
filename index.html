@@ -249,6 +249,22 @@
         background: rgba(255, 255, 255, 0.07);
     }
     
+    .feature-modal {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: var(--transition);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+    }
+    
+    .feature-modal:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-color: rgba(205, 185, 55, 0.3);
+        background: rgba(255, 255, 255, 0.07);
+    }
+    
     .feature-icon {
         background: rgba(205, 185, 55, 0.1);
         color: var(--primary);
@@ -264,6 +280,11 @@
     }
     
     .feature-item:hover .feature-icon {
+        transform: scale(1.1);
+        background: rgba(205, 185, 55, 0.2);
+    }
+    
+    .feature-modal:hover .feature-icon {
         transform: scale(1.1);
         background: rgba(205, 185, 55, 0.2);
     }
@@ -870,8 +891,152 @@
                 </div>
             </div>
         </div>
+
+        <!-- Slide 5: Ethics and Societal Considerations of Automatized Vehicles -->
+        <div class="swiper-slide">
+            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-header-content">
+                    <h1 class="fade-in">Ethics & Societal Impacts</h1>
+                    <p class="fade-in delay-1">Autonomous Vehicles</p>
+                </div>
+            </div>
+            <div class="slide-content-wrapper">
+                <div class="slide-content">
+                    <h2 class="fade-in delay-2">Key Ethical Considerations</h2>
         
-        <!-- Slide 5: Summary & Conclusion -->
+                    <div class="text-box fade-in delay-3">
+                        <div class="text-box-title">Beyond Hypothetical Dilemmas</div>
+                        <p style="margin-bottom: 0">Ethical issues with self-driving cars extend far beyond rare crash dilemmas. More urgent concerns relate to safety standards, surveillance, over-reliance on automation, and societal inequality.</p>
+                    </div>
+        
+                    <div class="feature-grid fade-in delay-3" style="margin-top: 2rem;">
+                        <div class="feature-modal" onclick="openModal('modal1')">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-title">Public Acceptance</div>
+                            <p>AVs may need to reduce fatalities by 75–80% to gain societal trust.</p>
+                        </div>
+                        <div class="feature-modal" onclick="openModal('modal2')">
+                            <div class="feature-icon">🚶‍♂️</div>
+                            <div class="feature-title">Over-Reliance</div>
+                            <p>Pedestrians may act recklessly, assuming the car will always stop.</p>
+                        </div>
+                        <div class="feature-modal" onclick="openModal('modal3')">
+                            <div class="feature-icon">⚖️</div>
+                            <div class="feature-title">Equity and Access</div>
+                            <p>Advanced safety systems could lead to traffic segregation.</p>
+                        </div>
+                        <div class="feature-modal" onclick="openModal('modal4')">
+                            <div class="feature-icon">🛰️</div>
+                            <div class="feature-title">Surveillance Risks</div>
+                            <p>Navigation data may be exploited for political or commercial use.</p>
+                        </div>
+                        <div class="feature-modal" onclick="openModal('modal5')">
+                            <div class="feature-icon">💣</div>
+                            <div class="feature-title">Malicious Use</div>
+                            <p>AVs could be hacked or used for criminal or terrorist purposes.</p>
+                        </div>
+                    </div>
+        
+                    <div class="text-box fade-in delay-4">
+                        <div class="text-box-title">Societal Trade-offs</div>
+                        <p>Introduction of AVs will involve trade-offs between <span class="highlight">safety, privacy, responsibility, and infrastructure control</span>. Policymakers must balance these in ways that serve the public interest.</p>
+                    </div>
+        
+                    <p class="fade-in-left delay-4" style="margin-top: 2rem;">Ethical design choices must consider realistic road behavior, not just philosophical thought experiments. Ensuring transparency, fairness, and inclusive design will be critical to widespread adoption and societal benefit.</p>
+        
+                    <p class="fade-in delay-5" style="margin-top: 2rem; font-size: 0.85rem; color: var(--muted);">
+                        Source: Hansson, S. O., Belin, M.-Å., & Lundgren, B. (2021). Self-Driving Vehicles—An Ethical Overview. <em>Philosophy & Technology</em>. https://doi.org/10.1007/s13347-021-00464-5
+                    </p>
+        
+                    <!-- Modals -->
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal1')">&times;</span>
+                            <h3>Public Acceptance</h3>
+                            <p>Despite potential safety benefits, public expectations may be unreasonably high. AVs might need to dramatically outperform human drivers to be socially accepted.</p>
+                        </div>
+                    </div>
+                    <div id="modal2" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal2')">&times;</span>
+                            <h3>Over-Reliance</h3>
+                            <p>Trusting automation too much can lead to risky pedestrian behavior, potentially reducing overall traffic safety and requiring stricter regulations or public education.</p>
+                        </div>
+                    </div>
+                    <div id="modal3" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal3')">&times;</span>
+                            <h3>Equity and Access</h3>
+                            <p>Only high-end AVs may have the most advanced features, creating unequal access and potentially segregated roadways based on socioeconomic status.</p>
+                        </div>
+                    </div>
+                    <div id="modal4" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal4')">&times;</span>
+                            <h3>Surveillance Risks</h3>
+                            <p>Collected data could be misused for targeted advertising, state surveillance, or manipulation, raising significant privacy and ethical concerns.</p>
+                        </div>
+                    </div>
+                    <div id="modal5" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal5')">&times;</span>
+                            <h3>Malicious Use</h3>
+                            <p>AVs could be exploited by criminals or terrorists to carry out attacks or disrupt infrastructure, necessitating strict cybersecurity and regulation.</p>
+                        </div>
+                    </div>
+        
+                    <style>
+                        .modal {
+                            display: none;
+                            position: fixed;
+                            z-index: 999;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            height: 100%;
+                            overflow: auto;
+                            background-color: rgba(0,0,0,0.6);
+                        }
+                        .modal-content {
+                            background-color: #fff;
+                            margin: 10% auto;
+                            padding: 20px;
+                            border-radius: 8px;
+                            width: 80%;
+                            max-width: 500px;
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                            position: relative;
+                        }
+                        .close {
+                            position: absolute;
+                            top: 10px;
+                            right: 20px;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                        }
+                    </style>
+                    <script>
+                        function openModal(id) {
+                            document.getElementById(id).style.display = 'block';
+                        }
+                        function closeModal(id) {
+                            document.getElementById(id).style.display = 'none';
+                        }
+                        window.onclick = function(event) {
+                            const modals = document.querySelectorAll('.modal');
+                            modals.forEach(modal => {
+                                if (event.target === modal) {
+                                    modal.style.display = "none";
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Slide 6: Summary & Conclusion -->
         <div class="swiper-slide">
             <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
                 <div class="slide-header-content">
@@ -1030,6 +1195,14 @@
             item.addEventListener('click', function() {
                 const title = this.querySelector('.feature-title').textContent;
                 alert(`Feature: ${title}\nThis feature is currently in development. More details coming in Sprint 3!`);
+            });
+        });
+
+        // Make feature modals interactive
+        const featureModal = document.querySelectorAll('.feature-modal');
+        featureItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.feature-title').textContent;
             });
         });
         
