@@ -1173,7 +1173,7 @@
     <div class="qa-modal-content fade-in">
         <span class="qa-close">&times;</span>
         <h3>Ask Us Anything! 🚗</h3>
-        <p>We’re here to answer your questions about our self-driving RC car project. Feel free to ask any team member during the Q&A session!</p>
+        <p>Feel free to ask any team member present, or alternatively, fill out the form.</p>
         <button class="qa-close-button">Close</button>
     </div>
 </div>
@@ -1193,6 +1193,7 @@
         justify-content: center; 
         align-items: center; 
         pointer-events: auto; 
+    }
     .qa-modal-content {
         background: var(--card-bg);
         padding: 2rem;
@@ -1248,11 +1249,11 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
-
+    /* Disable scrolling on the body when modal is open */
     body.modal-open {
         overflow: hidden;
     }
-    
+
     body.modal-open .swiper,
     body.modal-open .signup-form-container,
     body.modal-open .slide-content-wrapper {
@@ -1437,7 +1438,7 @@ if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
 
     qaClose.addEventListener('click', function() {
         qaModal.style.display = 'none';
-        document.body.classList.remove('modal-open'); 
+        document.body.classList.remove('modal-open');
     });
 
     qaCloseButton.addEventListener('click', function() {
@@ -1445,7 +1446,7 @@ if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
         document.body.classList.remove('modal-open'); 
     });
 
-    // Close modal when clicking outside of it
+    
     window.addEventListener('click', function(event) {
         if (event.target === qaModal) {
             qaModal.style.display = 'none';
