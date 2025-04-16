@@ -1,9 +1,38 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row =>
+                    row.some(cell => cell !== '' && cell !== null && cell !== undefined)
+                );
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sprint 2: Self-Driving RC Car</title>
+<title>Final Presentation: Self-Driving RC Car</title>
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
 <style>
@@ -62,7 +91,7 @@
         overflow-x: hidden;
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
-        padding-bottom: 80px; /* Extra padding to ensure content is visible */
+        padding-bottom: 80px;
     }
     
     .slide-header {
@@ -279,11 +308,7 @@
         transition: var(--transition);
     }
     
-    .feature-item:hover .feature-icon {
-        transform: scale(1.1);
-        background: rgba(205, 185, 55, 0.2);
-    }
-    
+    .feature-item:hover .feature-icon,
     .feature-modal:hover .feature-icon {
         transform: scale(1.1);
         background: rgba(205, 185, 55, 0.2);
@@ -482,15 +507,15 @@
     }
     
     .progress-fill.animated.software {
-        width: 90%;
+        width: 95%;
     }
     
     .progress-fill.animated.testing {
-        width: 60%;
+        width: 90%;
     }
     
     .progress-fill.animated.documentation {
-        width: 60%;
+        width: 85%;
     }
     
     .key-stat {
@@ -535,7 +560,6 @@
         margin-bottom: 0.5rem;
     }
     
-    /* Form Styles */
     .signup-form-container {
         background: rgba(255, 255, 255, 0.05);
         border-radius: 12px;
@@ -654,7 +678,6 @@
         }
     }
     
-    /* Existing Modal Styles (for Slide 5) */
     .modal {
         display: none;
         position: fixed;
@@ -732,7 +755,6 @@
         }
     }
     
-    /* Animation classes */
     .fade-in {
         opacity: 0;
         transform: translateY(20px);
@@ -797,7 +819,6 @@
         transition-delay: 1s;
     }
     
-    /* Pulse animation for key elements */
     @keyframes pulse {
         0% {
             box-shadow: 0 0 0 0 rgba(205, 185, 55, 0.4);
@@ -814,33 +835,105 @@
         animation: pulse 2s infinite;
     }
 
-    .modal {
+    .qa-modal {
         display: none;
         position: fixed;
-        z-index: 999;
+        z-index: 1000;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.6);
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        pointer-events: auto;
     }
-    .modal-content {
-        background-color: #fff;
-        margin: 10% auto;
-        padding: 20px;
-        border-radius: 8px;
-        width: 80%;
+    .qa-modal-content {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
         max-width: 500px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         position: relative;
+        text-align: center;
+        max-height: 80vh;
+        overflow-y: auto;
+        pointer-events: auto;
     }
-    .close {
+    .qa-modal-content h3 {
+        color: var(--primary);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    .qa-modal-content p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    .qa-close {
         position: absolute;
-        top: 10px;
+        top: 15px;
         right: 20px;
         font-size: 1.5rem;
+        color: var(--text-secondary);
         cursor: pointer;
+        transition: var(--transition);
+    }
+    .qa-close:hover {
+        color: var(--primary);
+        transform: scale(1.1);
+    }
+    .qa-close-button {
+        background: var(--primary);
+        color: #000;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+    .qa-close-button:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    body.modal-open {
+        overflow: hidden;
+    }
+    body.modal-open .swiper,
+    body.modal-open .signup-form-container,
+    body.modal-open .slide-content-wrapper {
+        pointer-events: none;
+    }
+    @media (max-width: 768px) {
+        .qa-modal-content {
+            padding: 1.5rem;
+            width: 85%;
+            max-height: 70vh;
+        }
+        .qa-modal-content h3 {
+            font-size: 1.5rem;
+        }
+        .qa-modal-content p {
+            font-size: 1rem;
+        }
+        .qa-close {
+            font-size: 1.25rem;
+            top: 10px;
+            right: 15px;
+        }
+        .qa-close-button {
+            font-size: 0.9rem;
+            padding: 0.5rem 1.2rem;
+        }
     }
 </style>
 </head>
@@ -853,20 +946,20 @@
     <div class="swiper-wrapper">
         <!-- Slide 1: Introduction -->
         <div class="swiper-slide">
-            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');">
+            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80');">
                 <div class="slide-header-content">
                     <h1 class="fade-in">Self-Driving RC Car</h1>
-                    <p class="fade-in delay-1">Sprint 2 Presentation</p>
+                    <p class="fade-in delay-1">Final Presentation</p>
                 </div>
             </div>
             <div class="slide-content-wrapper">
                 <div class="slide-content">
                     <h2 class="fade-in delay-2">Introduction to the Project</h2>
-                    <p class="fade-in delay-3">Our project explores <span class="highlight">autonomous navigation</span> by building a <span class="highlight">self-driving RC car</span> capable of detecting obstacles, following a predefined path, and navigating intelligently.</p>
+                    <p class="fade-in delay-3">Our project delivers a <span class="highlight">self-driving RC car</span> with <span class="highlight">autonomous navigation</span>, capable of obstacle avoidance, line following, and real-time video streaming.</p>
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Project Vision</div>
-                        <p style="margin-bottom: 0">Creating a <span class="highlight-secondary">small-scale</span> autonomous vehicle to explore and validate <span class="highlight-accent">key concepts</span> in self-driving technology.</p>
+                        <p style="margin-bottom: 0">Create a <span class="highlight-secondary">cost-effective</span> autonomous vehicle to explore <span class="highlight-accent">self-driving technology</span>.</p>
                     </div>
                     
                     <div class="key-stats fade-in delay-3" style="margin-bottom: 2rem;">
@@ -875,51 +968,78 @@
                             <span class="key-stat-label">Team Members</span>
                         </div>
                         <div class="key-stat">
-                            <span class="key-stat-value">3</span>
+                            <span class="key-stat-value">4</span>
                             <span class="key-stat-label">Sprints Completed</span>
                         </div>
                         <div class="key-stat">
-                            <span class="key-stat-value">2</span>
+                            <span class="key-stat-value">4</span>
                             <span class="key-stat-label">Key Features</span>
                         </div>
                     </div>
                     
                     <div class="feature-grid fade-in delay-4">
-                        <div class="feature-modal" onclick="openModal('modal6')">
+                        <div class="feature-modal" onclick="openModal('modal1')">
                             <div class="feature-icon pulse">🚗</div>
-                            <div class="feature-title">Autonomous Navigation</div>
-                            <p>Enabling the car to navigate without human intervention</p>
+                            <div class="feature-title">Obstacle Avoidance</div>
+                            <p>Navigates around obstacles using custom Python code.</p>
                         </div>
-                        <div class="feature-modal" onclick="openModal('modal7')">
-                            <div class="feature-icon">👁️</div>
-                            <div class="feature-title">Obstacle Detection</div>
-                            <p>Using sensors to identify and avoid obstacles</p>
+                        <div class="feature-modal" onclick="openModal('modal2')">
+                            <div class="feature-icon">🛤️</div>
+                            <div class="feature-title">Line Following</div>
+                            <p>Follows predefined paths autonomously.</p>
+                        </div>
+                        <div class="feature-modal" onclick="openModal('modal3')">
+                            <div class="feature-icon">📷</div>
+                            <div class="feature-title">Video Streaming</div>
+                            <p>Streams live footage via ESP32 camera.</p>
+                        </div>
+                        <div class="feature-modal" onclick="openModal('modal4')">
+                            <div class="feature-icon">⚙️</div>
+                            <div class="feature-title">Servo Control</div>
+                            <p>Adjusts sensor angles for better detection.</p>
                         </div>
                     </div>
-                     <!-- Modals -->
-                     <div id="modal6" class="modal">
+                    
+                    <div id="modal1" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal6')">&times;</span>
-                            <p>As part of our ongoing development, we also explored a line-following feature to enable the RC car to navigate predefined paths autonomously.</p>
+                            <span class="close" onclick="closeModal('modal1')">×</span>
+                            <h3>Obstacle Avoidance</h3>
+                            <p>Custom Python code processes ultrasonic sensor data to detect obstacles within 30 cm, enabling the car to stop, scan, and reroute.</p>
                         </div>
                     </div>
-                    <div id="modal7" class="modal">
+                    <div id="modal2" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal2')">&times;</span>
-                            <p>We developed an obstacle avoidance feature that enables the RC car to detect and respond to objects in its path. Using sensor input, the vehicle dynamically adjusts its route to prevent collisions, improving operational safety in real-world conditions. This capability represents a critical step toward creating a self-driving system that can make real-time decisions in unpredictable environments.</p>
+                            <span class="close" onclick="closeModal('modal2')">×</span>
+                            <h3>Line Following</h3>
+                            <p>Infrared sensors guide the car along black lines, ensuring precise navigation on set routes.</p>
                         </div>
-                    </div>                    
-                    <p class="fade-in delay-5">Initially using <span class="highlight">Arduino</span>, we also explored <span class="highlight-secondary">Raspberry Pi</span> and <span class="highlight-accent">Python</span> for enhanced capabilities.</p>
+                    </div>
+                    <div id="modal3" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal3')">×</span>
+                            <h3>Video Streaming</h3>
+                            <p>The ESP32-S3 camera streams real-time JPEG images, viewable remotely via WiFi.</p>
+                        </div>
+                    </div>
+                    <div id="modal4" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal4')">×</span>
+                            <h3>Servo Control</h3>
+                            <p>A servo motor adjusts the ultrasonic sensor’s angle, improving obstacle detection range.</p>
+                        </div>
+                    </div>
+                    
+                    <p class="fade-in delay-5">Built with <span class="highlight">Arduino</span>, <span class="highlight-secondary">ESP32-S3</span>, and <span class="highlight-accent">Python</span> for advanced functionality.</p>
                 </div>
             </div>
         </div>
         
         <!-- Slide 2: Progress So Far -->
         <div class="swiper-slide">
-            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1580894894513-541e068a3e2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1580894894513-541e068a3e2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
                 <div class="slide-header-content">
                     <h1 class="fade-in">Progress So Far</h1>
-                    <p class="fade-in delay-1">Sprint 1 & 2 Achievements</p>
+                    <p class="fade-in delay-1">Project Achievements</p>
                 </div>
             </div>
             <div class="slide-content-wrapper">
@@ -928,7 +1048,7 @@
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Project Status</div>
-                        <p style="margin-bottom: 0">We have made steady progress on hardware setup while working through software challenges.</p>
+                        <p style="margin-bottom: 0">Fully functional hardware and software, with all core features implemented and tested.</p>
                     </div>
                     
                     <div class="progress-container fade-in delay-3">
@@ -941,31 +1061,28 @@
                                 <div class="progress-fill hardware"></div>
                             </div>
                         </div>
-                        
                         <div class="progress-item">
                             <div class="progress-label">
                                 <span class="progress-title">Software Development</span>
-                                <span class="progress-percentage">40%</span>
+                                <span class="progress-percentage">95%</span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-fill software"></div>
                             </div>
                         </div>
-                        
                         <div class="progress-item">
                             <div class="progress-label">
                                 <span class="progress-title">Testing & Validation</span>
-                                <span class="progress-percentage">30%</span>
+                                <span class="progress-percentage">90%</span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-fill testing"></div>
                             </div>
                         </div>
-                        
                         <div class="progress-item">
                             <div class="progress-label">
                                 <span class="progress-title">Documentation</span>
-                                <span class="progress-percentage">60%</span>
+                                <span class="progress-percentage">85%</span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-fill documentation"></div>
@@ -975,13 +1092,13 @@
                     
                     <h3 class="fade-in-right delay-4" style="color: var(--text); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Key Milestones:</h3>
                     <ul class="fade-in-right delay-4">
-                        <li><span class="highlight">Assembled the RC Car</span> – Verified hardware components are functional</li>
-                        <li><span class="highlight-secondary">Connected to Arduino IDE</span> – Established communication with the car</li>
-                        <li><span class="highlight">Tested Manufacturer's Demo Code</span> – Successfully modified speed and verified movement</li>
-                        <li><span class="highlight-accent">Encountered Issues</span> with custom-written code – Could not make our own code work on the car</li>
-                        <li><span class="highlight-secondary">Implemented Line Following Capabilities</span> – Wireless code execution enables predefined routes for RC-car</li>
-                        <li><span class="highlight-secondary">Obstacle Avoidance</span> – RC-car wil detect and avoid obstacles using ultrasonic sensors</li>
-                        <li><span class="highlight-secondary">Limited hands-on testing</span> – Online classes & team members not meeting frequently</li>
+                        <li><span class="highlight">Assembled RC Car</span> – All components fully operational.</li>
+                        <li><span class="highlight-secondary">Fixed ESP32-S3</span> – Resolved connectivity issues for reliable performance.</li>
+                        <li><span class="highlight">Camera & Servo Integrated</span> – Enabled real-time video and dynamic scanning.</li>
+                        <li><span class="highlight-accent">Manufacturer Sketch Uploaded</span> – Provided stable base functionality.</li>
+                        <li><span class="highlight-secondary">Custom Python Code</span> – Implemented obstacle avoidance with real-time capture.</li>
+                        <li><span class="highlight">Line Following</span> – Achieved precise path navigation.</li>
+                        <li><span class="highlight-secondary">Extensive Testing</span> – Validated all features in real-world scenarios.</li>
                     </ul>
                 </div>
             </div>
@@ -989,96 +1106,96 @@
         
         <!-- Slide 3: Challenges Faced -->
         <div class="swiper-slide">
-            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
                 <div class="slide-header-content">
                     <h1 class="fade-in">Challenges Faced</h1>
-                    <p class="fade-in delay-1">Obstacles in Our Path</p>
+                    <p class="fade-in delay-1">Overcoming Obstacles</p>
                 </div>
             </div>
             <div class="slide-content-wrapper">
                 <div class="slide-content">
-                    <h2 class="fade-in delay-2">Key Obstacles</h2>
+                    <h2 class="fade-in delay-2">Key Challenges</h2>
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Challenge Summary</div>
-                        <p style="margin-bottom: 0">While we've made progress with the hardware, we face significant software and collaboration challenges that are impacting our development timeline.</p>
+                        <p style="margin-bottom: 0">We tackled hardware, software, and team coordination issues to deliver a working prototype.</p>
                     </div>
                     
                     <div class="feature-grid fade-in delay-3">
                         <div class="feature-item">
                             <div class="feature-icon">🔧</div>
-                            <div class="feature-title">Hardware Access</div>
-                            <p>Only <span class="highlight">one team member</span> was able to work on the car at a time, limiting hands-on development</p>
+                            <div class="feature-title">ESP32 Issues</div>
+                            <p><span class="highlight">Connectivity problems</span> delayed camera integration.</p>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">💻</div>
-                            <div class="feature-title">Coding & Debugging</div>
-                            <p><span class="highlight-accent">Custom-written code</span> didn't initially work as expected, and required extensive troubleshooting</p>
+                            <div class="feature-title">Code Debugging</div>
+                            <p><span class="highlight-accent">Custom code</span> required extensive troubleshooting.</p>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">👥</div>
                             <div class="feature-title">Team Collaboration</div>
-                            <p><span class="highlight-secondary">Online classes</span> made real-time testing and collaboration difficult</p>
+                            <p><span class="highlight-secondary">Online classes</span> limited hands-on time.</p>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">⚙️</div>
-                            <div class="feature-title">Technical Limitations</div>
-                            <p><span class="highlight">Arduino</span> did not provide enough processing power for our advanced requirements</p>
+                            <div class="feature-title">Processing Power</div>
+                            <p><span class="highlight">Arduino</span> struggled with complex tasks.</p>
                         </div>
                     </div>
                     
-                    <p class="fade-in-left delay-4" style="margin-top: 2rem;">These challenges have slowed our progress but have also pushed us to explore alternative approaches and solutions.</p>
+                    <p class="fade-in-left delay-4" style="margin-top: 2rem;">These hurdles taught us resilience and creative problem-solving.</p>
                 </div>
             </div>
         </div>
         
-        <!-- Slide 4: Solutions -->
+        <!-- Slide 4: Solutions & Innovations -->
         <div class="swiper-slide">
-            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1669555722121-e4226e41afde?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1669555722121-e4226e41afde?auto=format&fit=crop&w=2070&q=80');">
                 <div class="slide-header-content">
-                    <h1 class="fade-in">Solutions & Next Steps</h1>
-                    <p class="fade-in delay-1">Moving Forward</p>
+                    <h1 class="fade-in">Solutions & Innovations</h1>
+                    <p class="fade-in delay-1">How We Succeeded</p>
                 </div>
             </div>
             <div class="slide-content-wrapper">
                 <div class="slide-content">
-                    <h2 class="fade-in delay-2">Strategies We're Exploring</h2>
+                    <h2 class="fade-in delay-2">Our Approach</h2>
                     
                     <div class="text-box fade-in delay-3">
-                        <div class="text-box-title">Our Approach</div>
-                        <p style="margin-bottom: 0">We adapted our approach to overcome the technical and logistical challenges by exploring alternative hardware, improving our collaborative workflow, and considering platform migration.</p>
+                        <div class="text-box-title">Innovative Solutions</div>
+                        <p style="margin-bottom: 0">We combined hardware fixes, custom software, and teamwork to achieve our goals.</p>
                     </div>
                     
                     <div class="timeline fade-in delay-3">
                         <div class="timeline-item">
-                            <div class="timeline-title">Alternative Hardware</div>
-                            <div class="timeline-content">Using a teammate's <span class="highlight">RC Car</span> – One team member successfully ran their own written code</div>
+                            <div class="timeline-title">ESP32 Fix</div>
+                            <div class="timeline-content">Reconfigured <span class="highlight">ESP32-S3</span> for stable WiFi and camera streaming.</div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-title">Platform Migration</div>
-                            <div class="timeline-content">Exploring <span class="highlight-secondary">Raspberry Pi</span> & <span class="highlight-accent">Python</span> – Explored integrating a more powerful system</div>
+                            <div class="timeline-title">Servo Integration</div>
+                            <div class="timeline-content">Added <span class="highlight-secondary">servo motor</span> to enhance sensor range.</div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-title">Improved Workflow</div>
-                            <div class="timeline-content">Scheduling <span class="highlight">dedicated coding/testing sessions</span> to enhance team collaboration</div>
+                            <div class="timeline-title">Python Code</div>
+                            <div class="timeline-content">Developed <span class="highlight-accent">obstacle avoidance</span> with real-time processing.</div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-title">Code Optimization</div>
-                            <div class="timeline-content"><span class="highlight-secondary">Debugging</span> & comparing our implementation with the working manufacturer demo</div>
+                            <div class="timeline-title">Manufacturer Sketch</div>
+                            <div class="timeline-content">Used <span class="highlight">base code</span> to ensure core functionality.</div>
                         </div>
                     </div>
                     
-                    <h3 class="fade-in-right delay-4" style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Our Goals:</h3>
+                    <h3 class="fade-in-right delay-4" style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Outcomes:</h3>
                     <ul class="fade-in-right delay-4">
-                        <li>Get our <span class="highlight">custom-written code</span> working on the car</li>
-                        <li>Implement basic <span class="highlight-secondary">obstacle avoidance</span> & <span class="highlight-secondary"> path logic</span></li>
-                        <li>Decide whether to migrate from <span class="highlight">Arduino</span> to <span class="highlight-accent">Raspberry Pi</span></li>
-                        <li>Plan for an improved Final presentation with a <span class="highlight-secondary">live demo</span></li>
+                        <li>Achieved reliable <span class="highlight">obstacle avoidance</span> with Python.</li>
+                        <li>Enabled <span class="highlight-secondary">live video streaming</span> via ESP32.</li>
+                        <li>Stabilized system with <span class="highlight">manufacturer sketch</span>.</li>
+                        <li>Prepared for a <span class="highlight-accent">live demo</span>.</li>
                     </ul>
                 </div>
             </div>
         </div>
-
+        
         <!-- Slide 5: Ethics and Societal Considerations of Automatized Vehicles -->
         <div class="swiper-slide">
             <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
@@ -1177,7 +1294,7 @@
         
         <!-- Slide 6: Summary & Conclusion -->
         <div class="swiper-slide">
-            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+            <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
                 <div class="slide-header-content">
                     <h1 class="fade-in">Summary & Conclusion</h1>
                     <p class="fade-in delay-1">Looking Ahead</p>
@@ -1189,134 +1306,27 @@
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Where We Stand</div>
-                        <p style="margin-bottom: 0">Despite technical challenges, we’ve made consistent progress and successfully transformed our concepts into working features. Both line following and obstacle avoidance are fully implemented and ready for live demonstration, showcasing the core capabilities of our self-driving RC car.</p>
+                        <p style="margin-bottom: 0">Our RC car now features <span class="highlight">obstacle avoidance</span>, <span class="highlight-secondary">line following</span>, <span class="highlight-accent">video streaming</span>, and servo control, ready for a live demo.</p>
                     </div>
                     
-                    <p class="fade-in-left delay-4">Our project aligns with the broader emerging trend of <span class="highlight">AI-powered autonomous vehicles</span>.</p>
+                    <p class="fade-in-left delay-4">This project showcases <span class="highlight">affordable autonomy</span> with real-world applications.</p>
                     
                     <div class="scale-in delay-5" style="text-align: center; margin-top: 3rem;">
                         <div class="emoji pulse" style="font-size: 4rem; margin-bottom: 1.5rem;">🙌</div>
                         <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem;">End of Presentation</h3>
                         <p>Thank you!</p>
                         <button class="cta-button" id="start-qa">Have a Question?</button>
-
-<!-- Q&A Modal -->
-<div id="qa-modal" class="qa-modal">
-    <div class="qa-modal-content fade-in">
-        <span class="qa-close">&times;</span>
-        <h3>Ask Us Anything! 🚗</h3>
-        <p>Feel free to ask any team member present, or alternatively, fill out the form.</p>
-        <button class="qa-close-button">Close</button>
-    </div>
-</div>
-
-<style>
-    .qa-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(5px); 
-        overflow: hidden; 
-        justify-content: center; 
-        align-items: center; 
-        pointer-events: auto; 
-    }
-    .qa-modal-content {
-        background: var(--card-bg);
-        padding: 2rem;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 500px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        position: relative;
-        text-align: center;
-        max-height: 80vh; 
-        overflow-y: auto; 
-        pointer-events: auto; 
-    }
-    .qa-modal-content h3 {
-        color: var(--primary);
-        font-size: 1.75rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-    }
-    .qa-modal-content p {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
-    }
-    .qa-close {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        font-size: 1.5rem;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: var(--transition);
-    }
-    .qa-close:hover {
-        color: var(--primary);
-        transform: scale(1.1);
-    }
-    .qa-close-button {
-        background: var(--primary);
-        color: #000;
-        font-weight: 600;
-        padding: 0.5rem 1.5rem;
-        border-radius: 50px;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: var(--transition);
-    }
-    .qa-close-button:hover {
-        background: var(--primary-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    /* Disable scrolling on the body when modal is open */
-    body.modal-open {
-        overflow: hidden;
-    }
-
-    body.modal-open .swiper,
-    body.modal-open .signup-form-container,
-    body.modal-open .slide-content-wrapper {
-        pointer-events: none; 
-    }
-    @media (max-width: 768px) {
-        .qa-modal-content {
-            padding: 1.5rem;
-            width: 85%;
-            max-height: 70vh; 
-        }
-        .qa-modal-content h3 {
-            font-size: 1.5rem;
-        }
-        .qa-modal-content p {
-            font-size: 1rem;
-        }
-        .qa-close {
-            font-size: 1.25rem;
-            top: 10px;
-            right: 15px;
-        }
-        .qa-close-button {
-            font-size: 0.9rem;
-            padding: 0.5rem 1.2rem;
-        }
-    }
-</style>
                     </div>
-
-                    <!-- Sign-Up Form Section -->
+                    
+                    <div id="qa-modal" class="qa-modal">
+                        <div class="qa-modal-content fade-in">
+                            <span class="qa-close">×</span>
+                            <h3>Ask Us Anything! 🚗</h3>
+                            <p>Feel free to ask any team member present, or fill out our form.</p>
+                            <button class="qa-close-button">Close</button>
+                        </div>
+                    </div>
+                    
                     <div class="signup-form-container fade-in delay-5">
                         <h3>Stay in Touch</h3>
                         <form id="signup-form" class="signup-form" action="https://formspree.io/f/xnnprdvz" method="POST">
@@ -1352,195 +1362,148 @@
         </div>
     </div>
     
-    <!-- Navigation Buttons -->
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
-    
-    <!-- Pagination Dots -->
     <div class="swiper-pagination"></div>
 </div>
 
-<!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Swiper
-        const swiper = new Swiper('.swiper', {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            speed: 800,
-            grabCursor: true,
-            keyboard: {
-                enabled: true,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            touchMoveStopPropagation: true,
-            simulateTouch: true,
-            preventInteractionOnTransition: true,
-            on: {
-                slideChange: function() {
-                    updateSlideIndicator(this.activeIndex + 1);
+document.addEventListener('DOMContentLoaded', function() {
+    const swiper = new Swiper('.swiper', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        speed: 800,
+        grabCursor: true,
+        keyboard: {
+            enabled: true,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            dynamicBullets: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        touchMoveStopPropagation: true,
+        simulateTouch: true,
+        preventInteractionOnTransition: true,
+        on: {
+            slideChange: function() {
+                updateSlideIndicator(this.activeIndex + 1);
+                
+                const currentSlide = document.querySelector('.swiper-slide-active');
+                const fadeElements = currentSlide.querySelectorAll('.fade-in, .fade-in-right, .fade-in-left, .scale-in');
+                
+                fadeElements.forEach(element => {
+                    if (element.classList.contains('fade-in')) {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateY(20px)';
+                    } else if (element.classList.contains('fade-in-right')) {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateX(30px)';
+                    } else if (element.classList.contains('fade-in-left')) {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateX(-30px)';
+                    } else if (element.classList.contains('scale-in')) {
+                        element.style.opacity = '0';
+                        element.style.transform = 'scale(0.9)';
+                    }
                     
-                    // Reset animations
-                    const currentSlide = document.querySelector('.swiper-slide-active');
-                    const fadeElements = currentSlide.querySelectorAll('.fade-in, .fade-in-right, .fade-in-left, .scale-in');
+                    void element.offsetWidth;
                     
-                    fadeElements.forEach(element => {
-                        // Reset animation based on the class
-                        if (element.classList.contains('fade-in')) {
-                            element.style.opacity = '0';
-                            element.style.transform = 'translateY(20px)';
-                        } else if (element.classList.contains('fade-in-right')) {
-                            element.style.opacity = '0';
-                            element.style.transform = 'translateX(30px)';
-                        } else if (element.classList.contains('fade-in-left')) {
-                            element.style.opacity = '0';
-                            element.style.transform = 'translateX(-30px)';
-                        } else if (element.classList.contains('scale-in')) {
-                            element.style.opacity = '0';
-                            element.style.transform = 'scale(0.9)';
-                        }
-                        
-                        // Force reflow
-                        void element.offsetWidth;
-                        
-                        // Re-apply transitions
-                        if (element.classList.contains('fade-in')) {
-                            element.style.opacity = '1';
-                            element.style.transform = 'translateY(0)';
-                        } else if (element.classList.contains('fade-in-right') || element.classList.contains('fade-in-left')) {
-                            element.style.opacity = '1';
-                            element.style.transform = 'translateX(0)';
-                        } else if (element.classList.contains('scale-in')) {
-                            element.style.opacity = '1';
-                            element.style.transform = 'scale(1)';
-                        }
-                    });
-                    
-                    // Animate progress bars on slide 2
-                    if (this.activeIndex === 1) {
-                        setTimeout(() => {
-                            const progressFills = document.querySelectorAll('.progress-fill');
-                            progressFills.forEach(fill => {
-                                fill.classList.add('animated');
-                            });
-                        }, 600);
-                    } else {
+                    if (element.classList.contains('fade-in')) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    } else if (element.classList.contains('fade-in-right') || element.classList.contains('fade-in-left')) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateX(0)';
+                    } else if (element.classList.contains('scale-in')) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'scale(1)';
+                    }
+                });
+                
+                if (this.activeIndex === 1) {
+                    setTimeout(() => {
                         const progressFills = document.querySelectorAll('.progress-fill');
                         progressFills.forEach(fill => {
-                            fill.classList.remove('animated');
+                            fill.classList.add('animated');
                         });
-                    }
+                    }, 600);
+                } else {
+                    const progressFills = document.querySelectorAll('.progress-fill');
+                    progressFills.forEach(fill => {
+                        fill.classList.remove('animated');
+                    });
                 }
             }
+        }
+    });
+    
+    function updateSlideIndicator(index) {
+        document.getElementById('current-slide').textContent = index;
+        document.getElementById('total-slides').textContent = document.querySelectorAll('.swiper-slide').length;
+    }
+    
+    updateSlideIndicator(1);
+    
+    const qaButton = document.getElementById('start-qa');
+    const qaModal = document.getElementById('qa-modal');
+    const qaClose = document.querySelector('.qa-close');
+    const qaCloseButton = document.querySelector('.qa-close-button');
+    
+    if (qaButton && qaModal && qaClose && qaCloseButton) {
+        qaButton.addEventListener('click', function() {
+            qaModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
         });
         
-        // Update slide indicator
-        function updateSlideIndicator(index) {
-            document.getElementById('current-slide').textContent = index;
-            document.getElementById('total-slides').textContent = document.querySelectorAll('.swiper-slide').length;
-        }
-        
-        // Initial update
-        updateSlideIndicator(1);
-        
-        
-       
-// Q&A Modal
-const qaButton = document.getElementById('start-qa');
-const qaModal = document.getElementById('qa-modal');
-const qaClose = document.querySelector('.qa-close');
-const qaCloseButton = document.querySelector('.qa-close-button');
-const qaModalContent = document.querySelector('.qa-modal-content');
-
-if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
-    qaButton.addEventListener('click', function() {
-        qaModal.style.display = 'flex'; 
-        document.body.classList.add('modal-open'); 
-        qaModalContent.focus(); 
-    });
-
-    qaClose.addEventListener('click', function() {
-        qaModal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-    });
-
-    qaCloseButton.addEventListener('click', function() {
-        qaModal.style.display = 'none';
-        document.body.classList.remove('modal-open'); 
-    });
-
-    
-    window.addEventListener('click', function(event) {
-        if (event.target === qaModal) {
+        qaClose.addEventListener('click', function() {
             qaModal.style.display = 'none';
-            document.body.classList.remove('modal-open'); 
-        }
-    });
-
-    
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && qaModal.style.display === 'flex') {
-            qaModal.style.display = 'none';
-            document.body.classList.remove('modal-open'); 
-        }
-    });
-}
+            document.body.classList.remove('modal-open');
+        });
         
-        // Add keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight') {
-                swiper.slideNext();
-            } else if (e.key === 'ArrowLeft') {
-                swiper.slidePrev();
+        qaCloseButton.addEventListener('click', function() {
+            qaModal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === qaModal) {
+                qaModal.style.display = 'none';
+                document.body.classList.remove('modal-open');
             }
         });
         
-        // Make feature items interactive
-        // const featureItems = document.querySelectorAll('.feature-item');
-        // featureItems.forEach(item => {
-        //     item.addEventListener('click', function() {
-        //         const title = this.querySelector('.feature-title').textContent;
-        //         alert(`Feature: ${title}\nThis feature is currently in development. More details coming in Sprint 3!`);
-        //     });
-        // });
-
-        // Make feature modals interactive
-        const featureModals = document.querySelectorAll('.feature-modal');
-        featureModals.forEach(item => {
-            item.addEventListener('click', function() {
-                const title = this.querySelector('.feature-title').textContent;
-            });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && qaModal.style.display === 'flex') {
+                qaModal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
         });
-        
-        // Add progress bar animations on initial load for slide 2
-        if (swiper.activeIndex === 1) {
-            setTimeout(() => {
-                const progressFills = document.querySelectorAll('.progress-fill');
-                progressFills.forEach(fill => {
-                    fill.classList.add('animated');
-                });
-            }, 600);
+    }
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+            swiper.slideNext();
+        } else if (e.key === 'ArrowLeft') {
+            swiper.slidePrev();
         }
-
-        // Handle Form Submission
-        const signupForm = document.getElementById('signup-form');
-        const thankYouMessage = document.getElementById('thank-you-message');
-
+    });
+    
+    const signupForm = document.getElementById('signup-form');
+    const thankYouMessage = document.getElementById('thank-you-message');
+    
+    if (signupForm && thankYouMessage) {
         signupForm.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Prevent default form submission
-
+            e.preventDefault();
+            
             const formData = new FormData(signupForm);
             const action = signupForm.action;
-
+            
             try {
                 const response = await fetch(action, {
                     method: 'POST',
@@ -1549,9 +1512,8 @@ if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
                         'Accept': 'application/json'
                     }
                 });
-
+                
                 if (response.ok) {
-                    // Hide the form and show the thank-you message
                     signupForm.style.display = 'none';
                     thankYouMessage.style.display = 'block';
                 } else {
@@ -1561,38 +1523,31 @@ if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
                 alert('There was an error submitting the form. Please check your connection and try again.');
             }
         });
-    });
-
-    // Modal Functions (for Slide 5)
+    }
+    
     function openModal(id) {
-        document.getElementById(id).style.display = 'block';
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.display = 'block';
+        }
     }
+    
     function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
+    
     window.onclick = function(event) {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
             if (event.target === modal) {
-                modal.style.display = "none";
+                modal.style.display = 'none';
             }
         });
-    }
-
-    function openModal(id) {
-                            document.getElementById(id).style.display = 'block';
-                        }
-                        function closeModal(id) {
-                            document.getElementById(id).style.display = 'none';
-                        }
-                        window.onclick = function(event) {
-                            const modals = document.querySelectorAll('.modal');
-                            modals.forEach(modal => {
-                                if (event.target === modal) {
-                                    modal.style.display = "none";
-                                }
-                            });
-                        }
+    };
+});
 </script>
 </body>
 </html>
