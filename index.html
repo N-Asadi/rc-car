@@ -535,6 +535,155 @@
         margin-bottom: 0.5rem;
     }
     
+    /* Form Styles */
+    .signup-form-container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .signup-form-container h3 {
+        color: var(--primary);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .signup-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .signup-form label {
+        color: var(--text);
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+        display: block;
+    }
+    .signup-form input[type="text"],
+    .signup-form input[type="email"],
+    .signup-form textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        transition: var(--transition);
+    }
+    .signup-form input[type="text"]:focus,
+    .signup-form input[type="email"]:focus,
+    .signup-form textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .signup-form textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    .signup-form .radio-group {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+    }
+    .signup-form .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+    }
+    .signup-form input[type="radio"] {
+        accent-color: var(--primary);
+    }
+    .signup-form button[type="submit"] {
+        background: var(--primary);
+        color: #000;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: var(--transition);
+        align-self: center;
+    }
+    .signup-form button[type="submit"]:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .thank-you-message {
+        text-align: center;
+        color: var(--text);
+        font-size: 1.2rem;
+        margin-top: 2rem;
+        display: none;
+    }
+    .thank-you-message .emoji {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    @media (max-width: 768px) {
+        .signup-form-container {
+            padding: 1rem;
+        }
+        .signup-form-container h3 {
+            font-size: 1.25rem;
+        }
+        .signup-form input[type="text"],
+        .signup-form input[type="email"],
+        .signup-form textarea {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+        .signup-form button[type="submit"] {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        .signup-form label {
+            font-size: 0.9rem;
+        }
+        .signup-form .radio-group label {
+            font-size: 0.9rem;
+        }
+    }
+    
+    /* Existing Modal Styles (for Slide 5) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 500px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        position: relative;
+    }
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
     @media (max-width: 768px) {
         .slide-header {
             height: 25vh;
@@ -697,7 +846,7 @@
 </head>
 <body>
 <div class="slide-indicator">
-    <span id="current-slide">1</span>/<span id="total-slides">5</span>
+    <span id="current-slide">1</span>/<span id="total-slides">6</span>
 </div>
 
 <div class="swiper">
@@ -982,42 +1131,42 @@
         
                     <p class="fade-in-left delay-4" style="margin-top: 2rem;">Ethical design choices must consider realistic road behavior, not just philosophical thought experiments. Ensuring transparency, fairness, and inclusive design will be critical to widespread adoption and societal benefit.</p>
         
-                    <p class="fade-in delay-5" style="margin-top: 2rem; font-size: 0.85rem; color: var(--muted);">
+                    <p class="fade-in delay-5" style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted);">
                         Source: Hansson, S. O., Belin, M.-Å., & Lundgren, B. (2021). Self-Driving Vehicles—An Ethical Overview. <em>Philosophy & Technology</em>. https://doi.org/10.1007/s13347-021-00464-5
                     </p>
         
                     <!-- Modals -->
                     <div id="modal1" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal1')">&times;</span>
+                            <span class="close" onclick="closeModal('modal1')">×</span>
                             <h3>Public Acceptance</h3>
                             <p>Despite potential safety benefits, public expectations may be unreasonably high. AVs might need to dramatically outperform human drivers to be socially accepted.</p>
                         </div>
                     </div>
                     <div id="modal2" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal2')">&times;</span>
+                            <span class="close" onclick="closeModal('modal2')">×</span>
                             <h3>Over-Reliance</h3>
                             <p>Trusting automation too much can lead to risky pedestrian behavior, potentially reducing overall traffic safety and requiring stricter regulations or public education.</p>
                         </div>
                     </div>
                     <div id="modal3" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal3')">&times;</span>
+                            <span class="close" onclick="closeModal('modal3')">×</span>
                             <h3>Equity and Access</h3>
                             <p>Only high-end AVs may have the most advanced features, creating unequal access and potentially segregated roadways based on socioeconomic status.</p>
                         </div>
                     </div>
                     <div id="modal4" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal4')">&times;</span>
+                            <span class="close" onclick="closeModal('modal4')">×</span>
                             <h3>Surveillance Risks</h3>
                             <p>Collected data could be misused for targeted advertising, state surveillance, or manipulation, raising significant privacy and ethical concerns.</p>
                         </div>
                     </div>
                     <div id="modal5" class="modal">
                         <div class="modal-content">
-                            <span class="close" onclick="closeModal('modal5')">&times;</span>
+                            <span class="close" onclick="closeModal('modal5')">×</span>
                             <h3>Malicious Use</h3>
                             <p>AVs could be exploited by criminals or terrorists to carry out attacks or disrupt infrastructure, necessitating strict cybersecurity and regulation.</p>
                         </div>
@@ -1025,7 +1174,6 @@
                 </div>
             </div>
         </div>
-        
         
         <!-- Slide 6: Summary & Conclusion -->
         <div class="swiper-slide">
@@ -1050,7 +1198,154 @@
                         <div class="emoji pulse" style="font-size: 4rem; margin-bottom: 1.5rem;">🙌</div>
                         <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem;">End of Presentation</h3>
                         <p>Thank you!</p>
-                        <button class="cta-button" id="start-qa">Have a question?</button>
+                        <button class="cta-button" id="start-qa">Have a Question?</button>
+
+<!-- Q&A Modal -->
+<div id="qa-modal" class="qa-modal">
+    <div class="qa-modal-content fade-in">
+        <span class="qa-close">&times;</span>
+        <h3>Ask Us Anything! 🚗</h3>
+        <p>Feel free to ask any team member present, or alternatively, fill out the form.</p>
+        <button class="qa-close-button">Close</button>
+    </div>
+</div>
+
+<style>
+    .qa-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px); 
+        overflow: hidden; 
+        justify-content: center; 
+        align-items: center; 
+        pointer-events: auto; 
+    }
+    .qa-modal-content {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+        text-align: center;
+        max-height: 80vh; 
+        overflow-y: auto; 
+        pointer-events: auto; 
+    }
+    .qa-modal-content h3 {
+        color: var(--primary);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    .qa-modal-content p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    .qa-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .qa-close:hover {
+        color: var(--primary);
+        transform: scale(1.1);
+    }
+    .qa-close-button {
+        background: var(--primary);
+        color: #000;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+    .qa-close-button:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    /* Disable scrolling on the body when modal is open */
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    body.modal-open .swiper,
+    body.modal-open .signup-form-container,
+    body.modal-open .slide-content-wrapper {
+        pointer-events: none; 
+    }
+    @media (max-width: 768px) {
+        .qa-modal-content {
+            padding: 1.5rem;
+            width: 85%;
+            max-height: 70vh; 
+        }
+        .qa-modal-content h3 {
+            font-size: 1.5rem;
+        }
+        .qa-modal-content p {
+            font-size: 1rem;
+        }
+        .qa-close {
+            font-size: 1.25rem;
+            top: 10px;
+            right: 15px;
+        }
+        .qa-close-button {
+            font-size: 0.9rem;
+            padding: 0.5rem 1.2rem;
+        }
+    }
+</style>
+                    </div>
+
+                    <!-- Sign-Up Form Section -->
+                    <div class="signup-form-container fade-in delay-5">
+                        <h3>Stay in Touch</h3>
+                        <form id="signup-form" class="signup-form" action="https://formspree.io/f/xnnprdvz" method="POST">
+                            <div>
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required placeholder="Enter your name">
+                            </div>
+                            <div>
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required placeholder="Enter your email">
+                            </div>
+                            <div>
+                                <label>Interested in Follow-Up?</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="follow-up" value="Yes" required> Yes</label>
+                                    <label><input type="radio" name="follow-up" value="No"> No</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="comments">Comments (Optional)</label>
+                                <textarea id="comments" name="comments" placeholder="Share your thoughts or questions"></textarea>
+                            </div>
+                            <button type="submit">Submit</button>
+                        </form>
+                        <div id="thank-you-message" class="thank-you-message">
+                            <div class="emoji">🎉</div>
+                            <p>Thank you for signing up!</p>
+                            <p>We’ll be in touch soon.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1157,13 +1452,48 @@
         // Initial update
         updateSlideIndicator(1);
         
-        // Q&A Button
-        const qaButton = document.getElementById('start-qa');
-        if (qaButton) {
-            qaButton.addEventListener('click', function() {
-                alert('Feel free to ask any team member.');
-            });
+        
+       
+// Q&A Modal
+const qaButton = document.getElementById('start-qa');
+const qaModal = document.getElementById('qa-modal');
+const qaClose = document.querySelector('.qa-close');
+const qaCloseButton = document.querySelector('.qa-close-button');
+const qaModalContent = document.querySelector('.qa-modal-content');
+
+if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
+    qaButton.addEventListener('click', function() {
+        qaModal.style.display = 'flex'; 
+        document.body.classList.add('modal-open'); 
+        qaModalContent.focus(); 
+    });
+
+    qaClose.addEventListener('click', function() {
+        qaModal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    });
+
+    qaCloseButton.addEventListener('click', function() {
+        qaModal.style.display = 'none';
+        document.body.classList.remove('modal-open'); 
+    });
+
+    
+    window.addEventListener('click', function(event) {
+        if (event.target === qaModal) {
+            qaModal.style.display = 'none';
+            document.body.classList.remove('modal-open'); 
         }
+    });
+
+    
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && qaModal.style.display === 'flex') {
+            qaModal.style.display = 'none';
+            document.body.classList.remove('modal-open'); 
+        }
+    });
+}
         
         // Add keyboard shortcuts
         document.addEventListener('keydown', function(e) {
@@ -1184,14 +1514,14 @@
         // });
 
         // Make feature modals interactive
-        const featureModal = document.querySelectorAll('.feature-modal');
-        featureItems.forEach(item => {
+        const featureModals = document.querySelectorAll('.feature-modal');
+        featureModals.forEach(item => {
             item.addEventListener('click', function() {
                 const title = this.querySelector('.feature-title').textContent;
             });
         });
         
-        // Add progress bar animations on initial load for slide 1
+        // Add progress bar animations on initial load for slide 2
         if (swiper.activeIndex === 1) {
             setTimeout(() => {
                 const progressFills = document.querySelectorAll('.progress-fill');
@@ -1200,7 +1530,54 @@
                 });
             }, 600);
         }
+
+        // Handle Form Submission
+        const signupForm = document.getElementById('signup-form');
+        const thankYouMessage = document.getElementById('thank-you-message');
+
+        signupForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(signupForm);
+            const action = signupForm.action;
+
+            try {
+                const response = await fetch(action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Hide the form and show the thank-you message
+                    signupForm.style.display = 'none';
+                    thankYouMessage.style.display = 'block';
+                } else {
+                    alert('There was an error submitting the form. Please try again.');
+                }
+            } catch (error) {
+                alert('There was an error submitting the form. Please check your connection and try again.');
+            }
+        });
     });
+
+    // Modal Functions (for Slide 5)
+    function openModal(id) {
+        document.getElementById(id).style.display = 'block';
+    }
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+    window.onclick = function(event) {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
 
     function openModal(id) {
                             document.getElementById(id).style.display = 'block';
