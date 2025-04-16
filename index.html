@@ -478,15 +478,15 @@
     }
     
     .progress-fill.animated.hardware {
-        width: 80%;
+        width: 100%;
     }
     
     .progress-fill.animated.software {
-        width: 40%;
+        width: 90%;
     }
     
     .progress-fill.animated.testing {
-        width: 30%;
+        width: 60%;
     }
     
     .progress-fill.animated.documentation {
@@ -813,6 +813,35 @@
     .pulse {
         animation: pulse 2s infinite;
     }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 500px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        position: relative;
+    }
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
@@ -833,7 +862,7 @@
             <div class="slide-content-wrapper">
                 <div class="slide-content">
                     <h2 class="fade-in delay-2">Introduction to the Project</h2>
-                    <p class="fade-in delay-3">Our project explores <span class="highlight">autonomous navigation</span> by building a <span class="highlight">self-driving RC car</span> capable of detecting obstacles, following a person, and navigating intelligently.</p>
+                    <p class="fade-in delay-3">Our project explores <span class="highlight">autonomous navigation</span> by building a <span class="highlight">self-driving RC car</span> capable of detecting obstacles, following a predefined path, and navigating intelligently.</p>
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Project Vision</div>
@@ -846,34 +875,41 @@
                             <span class="key-stat-label">Team Members</span>
                         </div>
                         <div class="key-stat">
-                            <span class="key-stat-value">2</span>
+                            <span class="key-stat-value">3</span>
                             <span class="key-stat-label">Sprints Completed</span>
                         </div>
                         <div class="key-stat">
-                            <span class="key-stat-value">3</span>
+                            <span class="key-stat-value">2</span>
                             <span class="key-stat-label">Key Features</span>
                         </div>
                     </div>
                     
                     <div class="feature-grid fade-in delay-4">
-                        <div class="feature-item">
+                        <div class="feature-modal" onclick="openModal('modal6')">
                             <div class="feature-icon pulse">🚗</div>
                             <div class="feature-title">Autonomous Navigation</div>
                             <p>Enabling the car to navigate without human intervention</p>
                         </div>
-                        <div class="feature-item">
+                        <div class="feature-modal" onclick="openModal('modal7')">
                             <div class="feature-icon">👁️</div>
                             <div class="feature-title">Obstacle Detection</div>
                             <p>Using sensors to identify and avoid obstacles</p>
                         </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">🔍</div>
-                            <div class="feature-title">Person Following</div>
-                            <p>Implementing algorithms to track and follow a person</p>
+                    </div>
+                     <!-- Modals -->
+                     <div id="modal6" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal6')">&times;</span>
+                            <p>As part of our ongoing development, we also explored a line-following feature to enable the RC car to navigate predefined paths autonomously.</p>
                         </div>
                     </div>
-                    
-                    <p class="fade-in delay-5">Initially using <span class="highlight">Arduino</span>, we are also exploring <span class="highlight-secondary">Raspberry Pi</span> and <span class="highlight-accent">Python</span> for enhanced capabilities.</p>
+                    <div id="modal7" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('modal2')">&times;</span>
+                            <p>We developed an obstacle avoidance feature that enables the RC car to detect and respond to objects in its path. Using sensor input, the vehicle dynamically adjusts its route to prevent collisions, improving operational safety in real-world conditions. This capability represents a critical step toward creating a self-driving system that can make real-time decisions in unpredictable environments.</p>
+                        </div>
+                    </div>                    
+                    <p class="fade-in delay-5">Initially using <span class="highlight">Arduino</span>, we also explored <span class="highlight-secondary">Raspberry Pi</span> and <span class="highlight-accent">Python</span> for enhanced capabilities.</p>
                 </div>
             </div>
         </div>
@@ -892,14 +928,14 @@
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Project Status</div>
-                        <p style="margin-bottom: 0">We're making steady progress on hardware setup while working through software challenges. Our hardware foundation is almost complete, but we need to resolve several software issues.</p>
+                        <p style="margin-bottom: 0">We have made steady progress on hardware setup while working through software challenges.</p>
                     </div>
                     
                     <div class="progress-container fade-in delay-3">
                         <div class="progress-item">
                             <div class="progress-label">
                                 <span class="progress-title">Hardware Setup</span>
-                                <span class="progress-percentage">80%</span>
+                                <span class="progress-percentage">100%</span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-fill hardware"></div>
@@ -942,7 +978,9 @@
                         <li><span class="highlight">Assembled the RC Car</span> – Verified hardware components are functional</li>
                         <li><span class="highlight-secondary">Connected to Arduino IDE</span> – Established communication with the car</li>
                         <li><span class="highlight">Tested Manufacturer's Demo Code</span> – Successfully modified speed and verified movement</li>
-                        <li><span class="highlight-accent">Encountered issues</span> with custom-written code – Could not make our own code work on the car</li>
+                        <li><span class="highlight-accent">Encountered Issues</span> with custom-written code – Could not make our own code work on the car</li>
+                        <li><span class="highlight-secondary">Implemented Line Following Capabilities</span> – Wireless code execution enables predefined routes for RC-car</li>
+                        <li><span class="highlight-secondary">Obstacle Avoidance</span> – RC-car wil detect and avoid obstacles using ultrasonic sensors</li>
                         <li><span class="highlight-secondary">Limited hands-on testing</span> – Online classes & team members not meeting frequently</li>
                     </ul>
                 </div>
@@ -970,22 +1008,22 @@
                         <div class="feature-item">
                             <div class="feature-icon">🔧</div>
                             <div class="feature-title">Hardware Access</div>
-                            <p>Only <span class="highlight">one team member</span> currently has the car, limiting hands-on development</p>
+                            <p>Only <span class="highlight">one team member</span> was able to work on the car at a time, limiting hands-on development</p>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">💻</div>
                             <div class="feature-title">Coding & Debugging</div>
-                            <p><span class="highlight-accent">Custom-written code</span> isn't working as expected, requiring extensive troubleshooting</p>
+                            <p><span class="highlight-accent">Custom-written code</span> didn't initially work as expected, and required extensive troubleshooting</p>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">👥</div>
                             <div class="feature-title">Team Collaboration</div>
-                            <p><span class="highlight-secondary">Online classes</span> make real-time testing and collaboration difficult</p>
+                            <p><span class="highlight-secondary">Online classes</span> made real-time testing and collaboration difficult</p>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">⚙️</div>
                             <div class="feature-title">Technical Limitations</div>
-                            <p><span class="highlight">Arduino</span> may not provide enough processing power for our advanced requirements</p>
+                            <p><span class="highlight">Arduino</span> did not provide enough processing power for our advanced requirements</p>
                         </div>
                     </div>
                     
@@ -994,7 +1032,7 @@
             </div>
         </div>
         
-        <!-- Slide 4: Solutions & Next Steps -->
+        <!-- Slide 4: Solutions -->
         <div class="swiper-slide">
             <div class="slide-header" style="background-image: url('https://images.unsplash.com/photo-1669555722121-e4226e41afde?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
                 <div class="slide-header-content">
@@ -1008,7 +1046,7 @@
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Our Approach</div>
-                        <p style="margin-bottom: 0">We're adapting our approach to overcome the technical and logistical challenges by exploring alternative hardware, improving our collaborative workflow, and considering platform migration.</p>
+                        <p style="margin-bottom: 0">We adapted our approach to overcome the technical and logistical challenges by exploring alternative hardware, improving our collaborative workflow, and considering platform migration.</p>
                     </div>
                     
                     <div class="timeline fade-in delay-3">
@@ -1018,7 +1056,7 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-title">Platform Migration</div>
-                            <div class="timeline-content">Exploring <span class="highlight-secondary">Raspberry Pi</span> & <span class="highlight-accent">Python</span> – Looking into integrating a more powerful system</div>
+                            <div class="timeline-content">Exploring <span class="highlight-secondary">Raspberry Pi</span> & <span class="highlight-accent">Python</span> – Explored integrating a more powerful system</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-title">Improved Workflow</div>
@@ -1030,12 +1068,12 @@
                         </div>
                     </div>
                     
-                    <h3 class="fade-in-right delay-4" style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Sprint 3 Goals:</h3>
+                    <h3 class="fade-in-right delay-4" style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem;">Our Goals:</h3>
                     <ul class="fade-in-right delay-4">
                         <li>Get our <span class="highlight">custom-written code</span> working on the car</li>
-                        <li>Implement basic <span class="highlight-secondary">obstacle avoidance</span> & movement logic</li>
+                        <li>Implement basic <span class="highlight-secondary">obstacle avoidance</span> & <span class="highlight-secondary"> path logic</span></li>
                         <li>Decide whether to migrate from <span class="highlight">Arduino</span> to <span class="highlight-accent">Raspberry Pi</span></li>
-                        <li>Plan for an improved Sprint 3 presentation with a <span class="highlight-secondary">live demo</span></li>
+                        <li>Plan for an improved Final presentation with a <span class="highlight-secondary">live demo</span></li>
                     </ul>
                 </div>
             </div>
@@ -1151,14 +1189,8 @@
                     
                     <div class="text-box fade-in delay-3">
                         <div class="text-box-title">Where We Stand</div>
-                        <p style="margin-bottom: 0">Despite challenges, we're making steady progress and have a clear path forward for Sprint 3 with defined goals and solutions to overcome our current obstacles.</p>
+                        <p style="margin-bottom: 0">Despite technical challenges, we’ve made consistent progress and successfully transformed our concepts into working features. Both line following and obstacle avoidance are fully implemented and ready for live demonstration, showcasing the core capabilities of our self-driving RC car.</p>
                     </div>
-                    
-                    <p class="fade-in-left delay-3">We have made progress in <span class="highlight">hardware setup & testing</span>, but face coding and collaboration challenges.</p>
-                    
-                    <p class="fade-in-left delay-3">Exploring <span class="highlight-secondary">Raspberry Pi</span>, <span class="highlight-accent">Python</span>, and alternative debugging approaches to overcome obstacles.</p>
-                    
-                    <p class="fade-in-left delay-4">Sprint 3 will focus on getting custom code working and refining the system for real-world navigation.</p>
                     
                     <p class="fade-in-left delay-4">Our project aligns with the broader emerging trend of <span class="highlight">AI-powered autonomous vehicles</span>.</p>
                     
@@ -1473,13 +1505,13 @@ if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
         });
         
         // Make feature items interactive
-        const featureItems = document.querySelectorAll('.feature-item');
-        featureItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const title = this.querySelector('.feature-title').textContent;
-                alert(`Feature: ${title}\nThis feature is currently in development. More details coming in Sprint 3!`);
-            });
-        });
+        // const featureItems = document.querySelectorAll('.feature-item');
+        // featureItems.forEach(item => {
+        //     item.addEventListener('click', function() {
+        //         const title = this.querySelector('.feature-title').textContent;
+        //         alert(`Feature: ${title}\nThis feature is currently in development. More details coming in Sprint 3!`);
+        //     });
+        // });
 
         // Make feature modals interactive
         const featureModals = document.querySelectorAll('.feature-modal');
@@ -1546,6 +1578,21 @@ if (qaButton && qaModal && qaClose && qaCloseButton && qaModalContent) {
             }
         });
     }
+
+    function openModal(id) {
+                            document.getElementById(id).style.display = 'block';
+                        }
+                        function closeModal(id) {
+                            document.getElementById(id).style.display = 'none';
+                        }
+                        window.onclick = function(event) {
+                            const modals = document.querySelectorAll('.modal');
+                            modals.forEach(modal => {
+                                if (event.target === modal) {
+                                    modal.style.display = "none";
+                                }
+                            });
+                        }
 </script>
 </body>
 </html>
